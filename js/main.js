@@ -31,19 +31,38 @@ modalCart.addEventListener('click', function (event) {
 
 
 //* scroll smooth
+// {
+// 	const scrollLinks = document.querySelectorAll('a.scroll-link');
+
+// 	for (const scrollLink of scrollLinks) {
+// 		scrollLink.addEventListener('click', function (event) {
+// 			event.preventDefault();
+// 			const id = scrollLink.getAttribute('href');
+// 			document.querySelector(id).scrollIntoView({
+// 				behavior: 'smooth',
+// 				block: 'start',
+// 			});
+// 		});
+// 	}
+// }
+
 {
 	const scrollLinks = document.querySelectorAll('a.scroll-link');
 
 	for (const scrollLink of scrollLinks) {
 		scrollLink.addEventListener('click', function (event) {
 			event.preventDefault();
-			const id = scrollLink.getAttribute('href');
-			document.querySelector(id).scrollIntoView({
-				behavior: 'smooth',
-				block: 'start',
-			});
+			smoothScroll(scrollLink);
 		});
 	}
+}
+
+function smoothScroll(tag) {
+	const id = tag.getAttribute('href');
+	document.querySelector(id).scrollIntoView({
+		behavior: 'smooth',
+		block: 'start',
+	});
 }
 
 //* goods
@@ -87,7 +106,7 @@ const renderCards = function (data) {
 
 more.addEventListener('click', function (event) {
 	event.preventDefault();
-	getGoods().then(renderCards);
+	getGoods().then(renderCards).then(smoothScroll(more));
 });
 
 //* filtered goods
@@ -114,3 +133,5 @@ navigationLink.forEach(function (link) {
 	});
 });
 
+document.querySelector('.show-accessories').addEventListener('click', function () { filterCards('category', 'Accessories') });
+document.querySelector('.show-clothing').addEventListener('click', function () { filterCards('category', 'Clothing') });
